@@ -1,0 +1,22 @@
+name: API Test
+
+on:
+  push:
+
+jobs:
+  newman-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      - name: Run Postman Collection
+        run: |
+          newman run collection.json \
+          -e environment.json \
+          -d users.csv \
+          --env-var token=${{ secrets.GOREST_TOKEN }}
